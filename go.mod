@@ -13,7 +13,7 @@ require (
 	github.com/pion/rtp v1.8.9
 	github.com/pion/webrtc/v4 v4.0.0-beta.29
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/image v0.15.0
+	golang.org/x/image v0.19.0
 )
 
 require (
