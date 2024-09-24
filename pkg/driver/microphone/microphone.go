@@ -16,6 +16,8 @@ import (
 	"github.com/pion/mediadevices/pkg/io/audio"
 	"github.com/pion/mediadevices/pkg/prop"
 	"github.com/pion/mediadevices/pkg/wave"
+
+	rnnoise_android "github.com/snowlyg/RnnoiseAndroidPlugin"
 )
 
 const (
@@ -130,8 +132,12 @@ func (m *microphone) AudioRecord(inputProp prop.Media) (audio.Reader, error) {
 		return nil, errUnsupportedFormat
 	}
 
+	ds := rnnoise_android.NewDenoiseState()
+	defer ds.DestoryDenoiseState()
+
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	onRecvChunk := func(_, chunk []byte, framecount uint32) {
+		// chunk = ds.ProcessByte(chunk)
 		select {
 		case <-cancelCtx.Done():
 		case m.chunkChan <- chunk:
